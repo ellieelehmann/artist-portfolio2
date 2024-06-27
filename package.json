@@ -1,0 +1,37 @@
+{
+  "name": "artist-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "eliana lehmann",
+    "email": "eslehmann@umass.edu"
+  },
+  "contributors": [],
+  "scripts": {
+    "start": "node src/backend/server.js",
+    "start:frontend": "http-server frontend"
+  },
+  "dependencies": {
+    "body-parser":"^1.20.2",
+    "cors":"^2.8.5",
+    "express":"^4.19.2",
+    "express-validator":"^7.1.0",
+    "http-server":"^14.1.1",
+    "pouchdb":"^9.0.0"
+  }
+}
