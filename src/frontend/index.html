@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Application</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@7.2.1/dist/pouchdb.min.js"></script>
+</head>
+<body>
+    <div id="views">
+        <div id="homeView" class="view">
+            <h1>Eliana Lehmann</h1>
+            <div class="star-container"> 
+                <i class="fa-solid fa-star button"></i> <!--star button -->
+                <div class="subpages" id="subpages"> <!--- creating html href links to easily access subpages -->
+                    <a href="#aboutmeView" id="aboutme">About Me</a>
+                    <a href="#ideaView" id="idea">Leave an Idea</a>
+                    <a href="#garmentsView" id="garments">Garments</a>
+                    <a href="#digitalView" id="digital">Digital</a>
+                    <a href="#canvasView" id="canvas">On Canvas</a>
+                </div>
+            </div>
+        </div>
+        <div id="aboutmeView" class="view">
+            <h1>☆About Me☆</h1>
+            <div class = image-container >
+              <img src="pastme.JPG" alt="Past Me">
+              <img src="currentme.jpeg" alt="Current Me">
+            </div>
+            <p>Hi, my name is Ellie. I am a student at the University of Massachusetts, Amherst and am double majoring in Social Design and Informatics. This website application was created to showcase various artworks that I have completed throughout my life. I began my journey at age 4, taking private art lessons every Friday until the age of 16. Since then I have taken multiple art classes at UMass and continue working with different mediums in my spare time as well. I hope you enjoy my portfolio.</p>
+            <button class="home">home</button>
+        </div>
+     
+        <div id="ideaView" class="view">
+            <h1>☆Leave an Idea☆</h1>
+            <form id = "idform" >
+                <label for="input-idea">Idea Submission</label>
+                <input type="text"  id ="input-idea" required 
+                placeholder="share an idea please!" />
+
+                <label for="input-name">your name</label>
+                <input type="text"  id ="input-name" required 
+                placeholder="your name" />
+                <button type="submit" >submit</button>
+
+            </form>
+            <div id="ideasContainer"></div>
+            <button class="home">home</button>
+        </div>
+       
+        <div id="garmentsView" class="view">
+            <h1>☆Garments☆</h1>
+            <div class = "grid-container">
+                <button class="grid-item" data-viewid = "skirt">
+                    <img src="skirt.jpeg" >
+                    <h2>Pleated Skirt</h2>
+                    <p class="hidden-des">
+                        I designed and handcrafted this skirt from scratch using fabric and a sewing machine for my final project in the class CHEM 103: How to Craft. To achieve this I created a pleated skirt base, with an open side. I took my measurements, and sewed it together. I added a drape and worked with my professor to create a heart pendant out of glass using glass blowing techniques. Finally I added ribbon and a waist band to tie the skirt around my waist. Created Fall 2022. 
+                        </p>
+                </button>
+                <button class="grid-item" data-viewid="cat-print"> 
+                    <img src="catprint.jpeg" >
+                    <h2>Cat Prints</h2>
+                    <p class="hidden-des">This print was also created in photoshop through my digital imaging class. I worked together with a peer to create a series of emotions portrayed by cat-like characters. We drew inspiration from the film Kiki’s delivery service, and wanted to study facial expression. To showcase our work we decided to print it out onto white T-shirts using heat transfer paper. Created Spring 2024. 
+                         </p>
+                </button>
+                </button>
+                <button class="grid-item" data-viewid="fashionpdf">
+                    <object data="GenderBased-Pricing-Trends-in-Luxury-Fashion.pdf" type="application/pdf" width="100%" height="600px">
+                        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="#GenderandFashionAnalysiswithR">Download PDF</a>.</p>
+                    </object>
+                </button>
+            </div>
+            <button class="home">home</button>
+        </div>
+        <div id="digitalView" class="view">
+            <h1>☆Digital☆</h1>
+            <div class = "grid-container">
+                <button class="grid-item" data-viewid = "soft">
+                    <img src="orchidfinish.jpg" >
+                     <h2>Brutally Soft Woman</h2>
+                     <p class="hidden-des">
+                        This was my first project for my digital imaging class I took in Spring 2024. I used photoshop and created a magazine page spread inspired by the Japanese magazine ‘Fruits’. I used stylistic fashion choices to convey my message of the Brutally Soft Woman. Femininity is androgynous and in this century encompasses many different forms of expression. I added a faded orchid: a symbol of delicacy and womanhood to further express this. 
+                        </p>
+
+                </button>
+                <button class="grid-item" data-viewid="parsons"> 
+                    <img src="parsons.jpeg" >
+                    <h2>Parsons School of Design Challenge</h2>
+                    <p class="hidden-des">During my senior year of high school, I applied to Parson school of design. For this application I was prompted to complete a challenge. I decided to combine two mediums together: digital and acrylic. I printed out an image I took in the springtime of my friend's backyard. In the foreground I painted a dying woman basking in the sunlight, representing the cycle of life and with new beginnings come endings as well. Created in 2022.</p>
+
+                </button>
+                <button class="grid-item" data-viewid="jelly">
+                    <video width="320" height="240" controls>
+                        <source src="ELmoving2.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                      </video>
+                      <p>JellyFish Film</p>
+                </button>
+            </div>
+            <button class="home">home</button>
+        </div>
+        <div id="canvasView" class="view">
+            <h1>☆On Canvas☆</h1>
+            <div class="grid-container">
+                <button class="grid-item" data-viewid="pears">
+                    <img src="pears.JPG">
+                    <h2>Pears</h2>
+                    <p class="hidden-des">I wanted to include an old still life that I completed in my younger years. During my private art lessons I would create many different types of still lifes. This still life is of two pears. Created with oil pastel in 2016. I used various blending techniques to seamlessly integrate the light and shadow of the fruit. </p>
+                </button>
+                <button class="grid-item" data-viewid="bunny">
+                    <img src="bunny.JPG">
+                    <h2>Bunny Burrow</h2>
+                    <p class="hidden-des">Bunny Burrow is a mystical image that I had dreamt about. Inspired by the french impressionist movement I wanted to materialize the environment of my dream. I used acrylic paint and canvas. Making repeated movements on the canvas, and using ambiguous strokes to create my willow tree with the mystical bunny residing in its leaves. I used vibrant and spring-like colors to highlight my excitement for summer and good weather. Created in June 2024. </p>
+                </button>
+                <button class="grid-item" data-viewid="misery">
+                    <img src="misery.JPG">
+                    <h2>Misery</h2>
+                    <p class="hidden-des">During my freshman year of college I struggled with self image and independence. Being an only child I have a deep connection with my parents and home. As I went to college I felt ripped away from my comfort zone. This piece titled misery showcases the emotional state I was in at college during this time period - feeling isolated and alone. I used colored pencils and brown drawing paper. Created in 2022. </p>
+                </button>
+            </div>
+            <button class="home">home</button>
+        </div>
+
+
+        <div id="artworkView" class="view">
+            <div class="artwork-container">
+                <img id="expandedArtwork" src="" alt="Expanded Artwork">
+                <div class="artwork-description">
+                    <h2 id="artworkTitle"></h2>
+                    <p id="artworkDescription"></p>
+                </div>
+            </div>
+            <button class="home">home</button> <!--subpage return not home-->
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Eliana Lehmann Portfolio</p>
+    </footer>
+</body>
+</html>
+
