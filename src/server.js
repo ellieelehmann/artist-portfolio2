@@ -1,30 +1,43 @@
-import express, { json, query, urlencoded } from 'express';
+
+import express, { json, urlencoded } from 'express';
 import PouchDB from 'pouchdb';
 import cors from 'cors';
 const port = 3000; // defines the port number on which express will listen 
-const headerFields = { "Content-Type": "text/html" };
 import path from 'path';
 
 
 
 
 const app = express(); // initializing pouchdb and express.js
-const db = new PouchDB('ideas_db');
+const db = new PouchDB('ideas2_db');
 app.use(json()); // middleware
 app.use(cors()); // prevents requests to another domain 
 app.use(urlencoded({ extended: false }));
 app.use(express.static('src/frontend'));
+const headerFields = { "Content-Type": "application/json" };
 
 
-// create idea
-async function createIdea(response, _id) {
+
+
+// // create idea
+// async function createIdea(res,_id,idea) {
+//       try {
+//         await db.put({ _id, idea });
+//         res.status(200).send(`<h1>Idea ${_id} Created</h1>`);
+         
+//       } catch (err) {
+//         res.status(500).send(`<h1>Internal Server Error</h1><p>${err}</p>`);
+//       }
+//   }
+
+async function createIdea(response, _id, idea) {
     if (_id === undefined) {
       response.writeHead(400, headerFields);
       response.write("<h1>Idea Name Required</h1>");
       response.end();
     } else {
       try {
-        await db.put({ _id:_id, idea:idea });
+        await db.put({ _id: _id, idea: idea });
         response.writeHead(200, headerFields);
         response.write(`<h1>Idea from ${_id} Created</h1>`);
         response.end();
@@ -43,128 +56,78 @@ async function createIdea(response, _id) {
 
 
 // display all ideas from database 
-async function fetchAllIdeas() {
+async function fetchAllIdeas(res) {
     try {
-      const result = await db.allDocs({ include_docs: true });
+      const result = await db.allDocs({ include_docs: true, descending: true });
       const ideas = result.rows.map((row) => row.doc);
-      let responseText = "<h1>Ideas</h1><ul>";
-      ideas.forEach((idea) => {
-        responseText += `<li>${idea._id} = ${idea.idea}</li>`;
-      });
-      responseText += "</ul>";
-      response.writeHead(200, headerFields);
-      response.write(responseText);
-      response.end();
+      res.status(200).send(JSON.stringify(ideas));
     } catch (err) {
-      response.writeHead(500, headerFields);
-      response.write("<h1>Internal Server Error</h1>");
-      response.write("<p>Unable to load counters</p>");
-      response.write(`<pre>${err}</pre>`);
-      response.end();
+    res.status(500).send(`<h1>Internal Server Error</h1><p>${err}</p></h1>`);
     }
 }
 
 // updata the idea 
 
-async function updateIdea(response, _id) {
+async function updateIdea(res, _id, idea) {
     try {
-    const newIdea = document.getElementById('input-idea');
-      const idea = await db.get(_id);
-      idea.idea = newIdea.value;
-      await db.put(idea);
-      response.writeHead(200, headerFields);
-      response.write(`<h1>Idea ${idea._id} Updated</h1>`);
-      response.end();
+    const theIdea = await db.get(_id); 
+    theIdea.idea = idea;
+    await db.put(theIdea);
+    res.status(200).send(`<h1>Idea ${_id} updated</h1>`);
+         
     } catch (err) {
-      response.writeHead(404, headerFields);
-      response.write(`<h1>Counter ${_id} Not Found</h1>`);
-      response.end();
+    res.status(500).send(`<h1>Internal Server Error</h1><p>${err}</p></h1>`);
+         
     }
   }
-  async function deleteIdea(response, _id) {
+  async function deleteIdea(res, _id) {
     try {
       const idea = await db.get(_id);
-      response.writeHead(200, headerFields);
-      response.write(`<h1>Idea ${idea._id} Deleted</h1>`);
-      response.end();
       db.remove(idea);
+      res.status(200).send(`<h1>Idea ${_id} deleted</h1>`);
+      
+
     } catch (err) {
-      response.writeHead(404, headerFields);
-      response.write(`<h1>Idea ${_id} Not Found</h1>`);
-      response.end();
+    res.status(500).send(`<h1>Internal Server Error</h1><p>${err}</p></h1>`);
+      
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
+//routes
 
 // create an idea 
 
 app.post('/create', async (req, res) => {
-    try {
-        const params = req.query;
-        // creates the idea objecti n database with _id and idea 
-        createIdea(res,params); 
-        response.writeHead(200);
-        response.end();
-        return;  
-        }catch (err) {
+    try{
+        const { _id,idea  } = req.body; 
+        await createIdea( res,_id,idea );
+    }catch (err) {
         response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ status: "error", message}));
-    }  
+        response.end(JSON.stringify({ status: "error", message }));
+      }
+        
 });
 // read 
 app.get('/all', async (req, res) => {
-    try {
         fetchAllIdeas(res); 
-        } catch (err) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ status: "error", message}));
-        }
+       
 });
 
 
 // update past idea through id number 
 app.put('/update', async (req, res) => {
-    try {
-        const params = req.query;
-        updateIdea(res,params._id); 
-       
-        response.writeHead(200);
-        response.end();
-        return;  
-        
+    const { _id } = req.query._id;
+    const { idea } = req.body;
 
-        }
-    catch (err) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ status: "error", message}));
-    }
+    updateIdea(res, _id, idea); 
 });
 
 app.delete('/delete', async (req, res) => {
-    try {
-        const params = req.query;
-        deleteIdea(res,params._id); 
-        response.writeHead(200);
-        response.end();
-        return;  
-        }
-     catch (err) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ status: "error", message}));
-       
+    const { _id } = req.query._id;
+    if (!_id) {
+        res.status(400).json({ message: 'Your Name Required' });
+        return;
     }
+    deleteIdea(res,_id); 
 });
 
 
