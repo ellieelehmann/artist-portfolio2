@@ -80,23 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function createIdea(){
     // sends post request to server to create a new idea
-    const userName = document.getElementById('input-name'); 
-    const ideaName = document.getElementById('input-idea');
-    const userNamevalue = userName.value;
-    const ideaNamevalue = ideaName.value;
+    const userName = document.getElementById('input-name').values;
+    const ideaName = document.getElementById('input-idea').value;
 
     try{
-    const ideaContainer = document.getElementById("ideas");
-    const response = await fetch (`http://localhost:3000/create?_id=${userNamevalue}}`,{
+    const response = await fetch ('http://localhost:3000/create',{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({_id:userNamevalue,idea:ideaNamevalue})
-    }); 
-    const data = await response.json(); 
-    ideaContainer.innerHTML = data; 
 
+        body: JSON.stringify({ _id: userName,idea: ideaName}),
+    });
+    const responseData = await response.text();
+    const ideasElement = document.getElementById("ideas");
+    ideasElement.innerHTML = responseData;
+    alert('Idea submitted successfully!');
 } catch(err){
     console.error('Error submitting idea:', err);
     }
@@ -112,8 +111,8 @@ async function displayIdeas(){
                 'Content-Type': 'application/json'
             },
         });
-        const allIdeas = response.json();
-        ideaContainer.innerHTML = allIdeas; 
+        const allIdeas = await response.json();
+        ideaContainer.innerHTML = JSON.stringify(allIdeas);
 
     } catch(err){
         console.log('Error displaying ideas',err);
@@ -125,27 +124,25 @@ async function displayIdeas(){
 
 async function editIdea(){
     // sends put request to server to update the idea that is clicked on
-    const ideaContainer = document.getElementById("ideas");
-    const userName = document.getElementById('input-name'); 
-    const ideaName = document.getElementById('input-idea');
-    const userNamevalue = userName.value;
-    const ideaNamevalue = ideaName.value;
+    const userName = document.getElementById('input-name').value;
+    const ideaName = document.getElementById('input-idea').value;
+
     try{
     if (!userNamevalue) {
         alert("Your name is required to update idea!");
         return;
       }
-      const response = await fetch(`http://localhost:3000/update?_id=${userNamevalue}`, {
+      const response = await fetch(`http://localhost:3000/update?_id=${userName}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({idea: ideaNamevalue})
+        body: JSON.stringify({idea: ideaName})
 
       });
-      const data = await response.json();
+    const data = await response.json();
     
-      ideaContainer.innerHTML = data;
+    document.getElementById("ideas").innerHTML = JSON.stringify(data);
     }catch(err){
         console.log('Error deleting idea',err);
     }
@@ -154,25 +151,21 @@ async function editIdea(){
 
 async function deleteIdea(){
     // sends a delete request to server to delete the idea that was clicked upon 
-    const ideaContainer = document.getElementById("ideas");
-    const userName = document.getElementById('input-name'); 
-    const ideaName = document.getElementById('input-idea');
-    const userNamevalue = userName.value;
-    const ideaNamevalue = ideaName.value;
+    const userName = document.getElementById('input-name').value;
     try{
-    if (!userNamevalue) {
+    if (!userName) {
         alert("Idea name is required to delete!");
         return;
       }
     
-      const response = await fetch(`http://localhost:3000/delete?_id=${userNamevalue}`, {
+      const response = await fetch(`http://localhost:3000/delete?_id=${userName}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json'
         }
       });
       const data = await response.json();
-      ideaContainer.innerHTML = data;
+      document.getElementById("ideas").innerHTML = JSON.stringify(data);
     } catch(err){
         console.log('Error deleting idea',err);
 
@@ -180,6 +173,7 @@ async function deleteIdea(){
 
 }
 
+displayIdeas(); 
 
 const create = document.getElementById('create');
 create.addEventListener('click', createIdea);
