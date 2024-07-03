@@ -77,115 +77,124 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // idea view 
 // handels submitting the form 
-
-async function createIdea(){
+async function createIdea() {
     // sends post request to server to create a new idea
-    const userName = document.getElementById('input-name').values;
-    const ideaName = document.getElementById('input-idea').value;
+    const userName = document.getElementById("input-name").value; //LD: make sure you have value instead of .values!!!!
+    const ideaName = document.getElementById("input-idea").value;
 
-    try{
-    const response = await fetch ('http://localhost:3000/create',{
+    try {
+      const response = await fetch("http://localhost:3000/create", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
 
-        body: JSON.stringify({ _id: userName,idea: ideaName}),
-    });
-    const responseData = await response.text();
-    const ideasElement = document.getElementById("ideas");
-    ideasElement.innerHTML = responseData;
-    alert('Idea submitted successfully!');
-} catch(err){
-    console.error('Error submitting idea:', err);
-    }
-}
+        body: JSON.stringify({ _id: userName, idea: ideaName }),
+      });
+      if(response.ok){
+      const responseData = await response.text();
+      const ideasElement = document.getElementById("ideas");
+      ideasElement.innerHTML = responseData;
+      alert("Idea submitted successfully!"); //LD: you will want to change the logic here, even if you submit another idea under the same name, this alert will still show, followed by the 'Internal Server Error'
+      }else{
 
-async function displayIdeas(){
+      }
+    } catch (err) {
+      console.error("Error submitting idea:", err);
+    }
+  }
+
+  async function displayIdeas() {
     // sends get request to server to read all the submited ideas
     const ideaContainer = document.getElementById("ideas");
-    try{
-        const response = await fetch('http://localhost:3000/all',{
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        const allIdeas = await response.json();
-        ideaContainer.innerHTML = JSON.stringify(allIdeas);
-
-    } catch(err){
-        console.log('Error displaying ideas',err);
+    try {
+      const response = await fetch("http://localhost:3000/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const allIdeas = await response.json();
+      ideaContainer.innerHTML = allIdeas.map(idea => `<div>${idea._id}: ${idea.idea}</div>`).join('');
+    } catch (err) {
+      console.log("Error displaying ideas", err);
     }
-
-
-
-}
-
-async function editIdea(){
+  }
+  async function editIdea() {
     // sends put request to server to update the idea that is clicked on
-    const userName = document.getElementById('input-name').value;
-    const ideaName = document.getElementById('input-idea').value;
+    const userName = document.getElementById("input-name").value;
+    const ideaName = document.getElementById("input-idea").value;
 
-    try{
-    if (!userNamevalue) {
+    try {
+      if (!userName) {
+        
         alert("Your name is required to update idea!");
         return;
       }
-      const response = await fetch(`http://localhost:3000/update?_id=${userName}`, {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({idea: ideaName})
-
-      });
-    const data = await response.json();
-    
-    document.getElementById("ideas").innerHTML = JSON.stringify(data);
-    }catch(err){
-        console.log('Error deleting idea',err);
+      const response = await fetch(
+        `http://localhost:3000/update?_id=${userName}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ idea: ideaName }),
+        }
+      );
+      const data = await response.json();
+      document.getElementById("ideas").innerHTML = JSON.stringify(data);;
+      alert("Idea edited successfully!");
+    } catch (err) {
+      console.log("Error deleting idea", err);
     }
+  }
 
-}
-
-async function deleteIdea(){
-    // sends a delete request to server to delete the idea that was clicked upon 
-    const userName = document.getElementById('input-name').value;
-    try{
-    if (!userName) {
+  async function deleteIdea() {
+    // sends a delete request to server to delete the idea that was clicked upon
+    const userName = document.getElementById("input-name").value;
+    try {
+      if (!userName) {
         alert("Idea name is required to delete!");
         return;
       }
-    
-      const response = await fetch(`http://localhost:3000/delete?_id=${userName}`, {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json'
+
+      const response = await fetch(
+        `http://localhost:3000/delete?_id=${userName}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
-      const data = await response.json();
-      document.getElementById("ideas").innerHTML = JSON.stringify(data);
-    } catch(err){
-        console.log('Error deleting idea',err);
+      );
 
+      if (response.ok) {
+        document.getElementById("ideas").innerHTML = JSON.stringify(data);
+        alert("Idea deleted successfully!");
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.log("Error deleting idea", err);
     }
+  }
 
-}
+  displayIdeas();
 
-displayIdeas(); 
+  const create = document.getElementById("create");
+  create.addEventListener("click", createIdea);
 
-const create = document.getElementById('create');
-create.addEventListener('click', createIdea);
+  const display = document.getElementById("display");
+  display.addEventListener("click", displayIdeas);
 
-const display = document.getElementById('display');
-display.addEventListener('click',displayIdeas); 
+  const edit = document.getElementById("edit");
+  edit.addEventListener("click", editIdea);
 
-const edit = document.getElementById('edit');
-edit.addEventListener('click',editIdea); 
+  const deletebtn = document.getElementById("delete");
+  deletebtn.addEventListener("click", deleteIdea);
 
-const deletebtn = document.getElementById('delete');
-deletebtn.addEventListener('click',deleteIdea); 
+
+
 
 
 //store in local storage so that in artwork details I can load it from local storage

@@ -38,14 +38,14 @@ html {
 
 .subpages {
     display: none;
-    font-family:'Times New Roman', serif;
+    font-family:'Brigadier Sans';
     position: absolute;
     padding: 20px;
     border-radius: 10px; /* round the corners!*/
     text-align: center; /* center text */
     width: 100px; /* width of subpages */
     margin-right: 3rem;
-    margin-top: -70px;
+    margin-top: -10px;
 
 }
 
@@ -55,16 +55,21 @@ html {
 .subpages a {
     width: 100px; 
     height: 100px; 
-    background-color: rgba(0, 0, 0, 0); /*transparent*/
-    color: #000000; 
+    background-color: #70bbcc;
+    color: #eae1a1; 
     text-decoration: none; /* remove underline ew */
     margin: 10px; /*spacing between subpages */
     font-size: 1.2em; 
     transition: transform 0.13s;
+    border-radius: 50%; /* circular */
+    display: flex; 
+    justify-content: center; /*horizontally */
+    align-items: center; 
+ 
 }
 
 .subpages a:hover {
-    transform: scale(1.3); 
+    transform: scale(1.1); 
 }
 
 .star-container:hover .subpages {
@@ -85,11 +90,14 @@ html {
     display: none; /* hide the details page first like in the generalized view */
 }
 
+
+
 .home {
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 5px 10px;
+    font-family:'Brigadier Sans';
     font-size: 1.5rem;
     background-color: #e79323;
     color: #70bbcc;
@@ -144,7 +152,7 @@ html {
 
 .artwork-description p {
     font-size: 1.2rem;
-    color: #666;
+    color: #171717;
     line-height: 1.6;
 }
 
@@ -162,12 +170,10 @@ html {
     font-size: 2rem;
 }
 
-#idform {
-    max-width: 600px;
-}
 
-textarea {
-    width: 100%; /* all of its container  */
+
+input[type="text"]{
+    width:50%; /* all of its container  */
     height: 150px; 
     padding: 5px; 
     font-size: 1.5rem; 
@@ -182,15 +188,119 @@ textarea {
     
 
 
-button[type="submit"] {
+button[id="create"] {
     background-color: #e79323; 
     color: #70bbcc;; 
     padding: 10px 20px; /* Padding inside the button */
     font-size: 1.5rem; 
     border: none; 
     border-radius: 12px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
+    cursor: pointer; 
 }
+
+button[id="edit"]{
+    background-color: #e79323; 
+    color: #70bbcc;; 
+    padding: 10px 20px; /* padding inside the button */
+    font-size: 1.5rem; 
+    border: none; 
+    border-radius: 12px; /* Rounded corners */
+    cursor: pointer; 
+
+}
+
+button[id="delete"]{
+    background-color: #e79323; 
+    color: #70bbcc;; 
+    padding: 10px 20px; /* padding inside the button */
+    font-size: 1.5rem; 
+    border: none; 
+    border-radius: 12px; /* Rounded corners */
+    cursor: pointer; 
+
+}
+
+button[id="display"]{
+    background-color: #e79323; 
+    color: #70bbcc;; 
+    padding: 10px 20px; /* padding inside the button */
+    font-size: 1.5rem; 
+    border: none; 
+    border-radius: 12px; /* Rounded corners */
+    cursor: pointer; 
+}
+
+
+#ideas {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e79323;
+    color:#eae1a1;
+  }
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Brush Script MT', cursive;
+    color: #70bbcc;
+    font-size: 1.5rem;
+  }
+
+.artwork-container {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+    padding: 20px;
+}
+
+
+
+.artwork-title{
+    text-align: center;
+    font-family: 'Brigadier Sans';
+    color: #eae1a1;
+    font-size: 1.5rem;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    padding-bottom: 5px; 
+
+
+
+}
+
+#canvasView h1 {
+    text-align: center;
+    font-family: 'Brush Script MT', cursive;
+    color: #70bbcc;
+    font-size: 2rem;
+
+}
+
+#garmentsView h1 {
+    text-align: center;
+    font-family: 'Brush Script MT', cursive;
+    color: #70bbcc;
+    font-size: 2rem;
+
+}
+
+#digitalView h1 {
+    text-align: center;
+    font-family: 'Brush Script MT', cursive;
+    color: #70bbcc;
+    font-size: 2rem;
+
+}
+
+
+
+
+
+
+
 /*about me view*/ 
 
 #aboutmeView {
@@ -226,6 +336,7 @@ button[type="submit"] {
 #aboutmeView p {
     text-align: center;
     font-size: 1.4rem; 
+    font-family: 'Brigadier Sans';
     line-height: 1.6; 
     color: #000000; 
     margin-bottom: 20px; 
@@ -257,5 +368,8 @@ button[type="submit"] {
 
 .artwork-description {
     text-align: right;
+    font-family: 'Brigadier Sans';
+    color: #000000;
+    font-size: 2rem;
 }
 
