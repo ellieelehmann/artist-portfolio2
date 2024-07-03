@@ -29,8 +29,8 @@ async function createIdea(response, _id, idea) {
     } catch (err) {
       response.writeHead(500, headerFields);
       response.write("<h1>Internal Server Error</h1>");
-      response.write("<p>Unable to create counter</p>");
-      response.write(`<p>This is likely a duplicate counter name!</p>`);
+      response.write("<p>Unable to create idea</p>");
+      response.write(`<p>This is likely a duplicate idea name!</p>`);
       response.end();
     }
   }
