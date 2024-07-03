@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // handels submitting the form 
 async function createIdea() {
     // sends post request to server to create a new idea
-    const userName = document.getElementById("input-name").value; //LD: make sure you have value instead of .values!!!!
+    const userName = document.getElementById("input-name").value; 
     const ideaName = document.getElementById("input-idea").value;
 
     try {
@@ -95,7 +95,7 @@ async function createIdea() {
       const responseData = await response.text();
       const ideasElement = document.getElementById("ideas");
       ideasElement.innerHTML = responseData;
-      alert("Idea submitted successfully!"); //LD: you will want to change the logic here, even if you submit another idea under the same name, this alert will still show, followed by the 'Internal Server Error'
+      alert("Idea submitted successfully!"); 
       }else{
 
       }
@@ -142,7 +142,7 @@ async function createIdea() {
         }
       );
       const data = await response.json();
-      document.getElementById("ideas").innerHTML = JSON.stringify(data);;
+      document.getElementById("ideas").innerHTML = JSON.stringify(data);
       alert("Idea edited successfully!");
     } catch (err) {
       console.log("Error deleting idea", err);
